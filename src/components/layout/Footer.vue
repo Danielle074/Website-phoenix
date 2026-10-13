@@ -26,7 +26,7 @@ const socials = [
 </script>
 
 <template>
-  <footer class="bg-[#153765] text-white mt-auto">
+  <footer class="bg-[#031123] text-white mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
 
       <!-- GRILLE PRINCIPALE -->
@@ -122,7 +122,7 @@ const socials = [
           © {{ year }} PHENIX Jobs & Carrières. Tous droits réservés.
         </p>
         <p class="text-xs text-white/60 text-center sm:text-right">
-          Fait avec ❤️ en Côte d'Ivoire
+          Fait en Côte d'Ivoire
         </p>
       </div>
     </div>

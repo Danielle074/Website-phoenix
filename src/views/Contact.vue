@@ -2,73 +2,102 @@
   <main class="min-h-screen bg-white text-slate-900">
 
     <!-- ==================================================
-         HERO
+         HERO CINÉMATOGRAPHIQUE
     =================================================== -->
-    <section class="relative overflow-hidden bg-[#101D35] text-white">
-      <div class="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full border border-white/[0.06]" />
-      <div class="pointer-events-none absolute -right-20 -top-20 h-[350px] w-[350px] rounded-full border border-white/[0.08]" />
+    <section class="relative overflow-hidden bg-[#0A1524] text-white">
+      <!-- Cercles lumineux animés -->
+      <div class="pointer-events-none absolute -right-40 -top-40 h-[600px] w-[600px] animate-pulse-slow rounded-full bg-gradient-to-br from-[#F47B20]/20 to-transparent blur-3xl" />
+      <div class="pointer-events-none absolute -left-40 bottom-0 h-[500px] w-[500px] animate-pulse-slow rounded-full bg-gradient-to-tr from-[#FF8A24]/15 to-transparent blur-3xl" style="animation-delay: 2s" />
+
+      <!-- Cercles concentriques animés -->
+      <div class="pointer-events-none absolute -right-32 top-10 h-[420px] w-[420px] animate-spin-slow rounded-full border border-white/[0.05]" />
+      <div class="pointer-events-none absolute -right-16 top-24 h-[280px] w-[280px] animate-spin-slow-reverse rounded-full border border-white/[0.08]" />
+
+      <!-- Grille décorative -->
+      <div class="pointer-events-none absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px); background-size: 80px 80px;" />
 
       <div class="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 md:py-20 lg:px-10 lg:py-24">
         <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
 
           <!-- Texte -->
           <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-xs font-medium text-slate-200">
-         
+            <span class="hero-enter hero-enter-1 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-xs font-medium text-slate-200 backdrop-blur-md">
+     
               Nous sommes à votre écoute
             </span>
 
-            <h1 class="mt-7 max-w-2xl text-4xl font-bold leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 class="hero-enter hero-enter-2 mt-7 max-w-2xl text-4xl font-bold leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl">
               Contactez
-              <span class="mt-2 block text-[#FF8A24]">notre équipe.</span>
+              <span class="mt-2 block bg-gradient-to-r from-[#FF8A24] via-[#FFB067] to-[#FF8A24] bg-clip-text text-transparent">
+                notre équipe.
+              </span>
             </h1>
 
-            <p class="mt-6 max-w-xl text-base leading-8 text-slate-300 sm:text-lg">
+            <p class="hero-enter hero-enter-3 mt-6 max-w-xl text-base leading-8 text-slate-300 sm:text-lg">
               Une question, une suggestion, un partenariat ? Écrivez-nous et
               nous vous répondrons dans les plus brefs délais.
             </p>
 
             <!-- Coordonnées rapides -->
-            <div class="mt-9 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div class="hero-enter hero-enter-4 mt-9 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <a
-                v-for="item in quickContacts"
+                v-for="(item, i) in quickContacts"
                 :key="item.label"
                 :href="item.href"
-                class="group flex items-start gap-3 rounded-2xl border-2 border-white/10 bg-white/[0.05] p-4 transition hover:border-orange-400/40 hover:bg-white/[0.08]"
+                class="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] p-4 backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:border-[#F47B20]/40 hover:bg-white/[0.08]"
+                :style="{ transitionDelay: `${i * 60}ms` }"
               >
-                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-400/15 text-[#FF9A42]">
-                  <component :is="item.icon" class="h-5 w-5" />
-                </div>
-                <div class="min-w-0">
-                  <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                    {{ item.label }}
-                  </p>
-                  <p class="mt-1 truncate text-sm font-semibold text-white group-hover:text-[#FF9A42]">
-                    {{ item.value }}
-                  </p>
+                <div class="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br from-[#F47B20]/20 to-transparent opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
+
+                <div class="relative flex items-start gap-3">
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#F47B20]/25 to-[#FF8A24]/15 text-[#FF9A42] transition-all duration-500 group-hover:scale-110">
+                    <component :is="item.icon" class="h-5 w-5" />
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      {{ item.label }}
+                    </p>
+                    <p class="mt-1 truncate text-sm font-semibold text-white transition group-hover:text-[#FF9A42]">
+                      {{ item.value }}
+                    </p>
+                  </div>
                 </div>
               </a>
             </div>
           </div>
 
           <!-- Image -->
-          <div class="relative mx-auto w-full max-w-xl lg:max-w-none">
+          <div class="hero-enter hero-enter-5 relative mx-auto w-full max-w-xl lg:max-w-none">
             <div class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-2 shadow-2xl">
-              <img
-                :src="contactHero"
-                alt="Équipe PHENIX à votre écoute"
-                class="h-[340px] w-full rounded-[1.5rem] object-cover sm:h-[440px]"
-              />
+              <div class="relative overflow-hidden rounded-[1.5rem]">
+                <img
+                  :src="contactHero"
+                  alt="Équipe PHOENIX à votre écoute"
+                  class="h-[340px] w-full object-cover transition-transform duration-700 hover:scale-105 sm:h-[440px]"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0A1524]/60 via-transparent to-transparent" />
+              </div>
             </div>
 
-            <!-- Carte flottante -->
+            <!-- Carte flottante haut gauche -->
             <div class="absolute -left-3 top-8 hidden items-center gap-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-xl sm:flex lg:-left-8">
-              <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+              <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 text-emerald-600 shadow-sm">
                 <ClockIcon class="h-5 w-5" />
               </div>
               <div>
                 <p class="text-sm font-bold text-slate-900">Réponse rapide</p>
                 <p class="mt-1 text-xs text-slate-500">Sous 24h ouvrées</p>
+              </div>
+            </div>
+
+            <!-- Carte flottante bas droite -->
+            <div class="absolute -bottom-5 right-4 hidden items-center gap-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-xl sm:flex lg:-right-6">
+              <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 text-[#F47B20] shadow-sm">
+                <CheckCircleIcon class="h-5 w-5" />
+              </div>
+              <div>
+                <p class="text-sm font-bold text-slate-900">98% satisfaits</p>
+                <p class="mt-1 text-xs text-slate-500">Sur 3 500 demandes</p>
               </div>
             </div>
           </div>
@@ -79,15 +108,19 @@
     <!-- ==================================================
          FORMULAIRE + INFOS
     =================================================== -->
-    <section class="bg-[#F8FAFC]">
-      <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+    <section class="relative overflow-hidden bg-[#F8FAFC]">
+      <div class="pointer-events-none absolute -right-40 top-20 h-96 w-96 rounded-full bg-gradient-to-br from-orange-100/60 to-transparent blur-3xl" />
+
+      <div class="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
         <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
 
           <!-- ==============================================
                FORMULAIRE
           =============================================== -->
-          <div class="lg:col-span-7">
-            <div class="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-xl sm:p-8">
+          <div class="reveal lg:col-span-7">
+            <div class="relative overflow-hidden rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-xl sm:p-8">
+              <!-- Liseré dégradé -->
+              <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#F47B20] via-[#FF8A24] to-[#FFB067]" />
 
               <div class="mb-7">
                 <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F47B20]">
@@ -101,7 +134,7 @@
                 </p>
               </div>
 
-              <!-- ✅ Toast succès -->
+              <!-- Toast succès -->
               <Transition
                 enter-active-class="transition duration-300"
                 enter-from-class="opacity-0 -translate-y-2"
@@ -135,8 +168,8 @@
                     <label for="fullname" class="mb-2 block text-sm font-semibold text-[#101D35]">
                       Nom complet <span class="text-red-500">*</span>
                     </label>
-                    <div class="relative">
-                      <UserIcon class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                    <div class="group/field relative">
+                      <UserIcon class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition group-focus-within/field:text-[#F47B20]" />
                       <input
                         id="fullname"
                         v-model="form.fullname"
@@ -155,8 +188,8 @@
                     <label for="email" class="mb-2 block text-sm font-semibold text-[#101D35]">
                       Email <span class="text-red-500">*</span>
                     </label>
-                    <div class="relative">
-                      <MailIcon class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                    <div class="group/field relative">
+                      <MailIcon class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition group-focus-within/field:text-[#F47B20]" />
                       <input
                         id="email"
                         v-model="form.email"
@@ -178,8 +211,8 @@
                     <label for="phone" class="mb-2 block text-sm font-semibold text-[#101D35]">
                       Téléphone
                     </label>
-                    <div class="relative">
-                      <PhoneIcon class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                    <div class="group/field relative">
+                      <PhoneIcon class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition group-focus-within/field:text-[#F47B20]" />
                       <input
                         id="phone"
                         v-model="form.phone"
@@ -194,8 +227,8 @@
                     <label for="subject" class="mb-2 block text-sm font-semibold text-[#101D35]">
                       Sujet <span class="text-red-500">*</span>
                     </label>
-                    <div class="relative">
-                      <TagIcon class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                    <div class="group/field relative">
+                      <TagIcon class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 transition group-focus-within/field:text-[#F47B20]" />
                       <select
                         id="subject"
                         v-model="form.subject"
@@ -264,11 +297,12 @@
                 <button
                   type="submit"
                   :disabled="isSubmitting"
-                  class="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#F47B20] px-6 text-sm font-semibold text-white transition hover:bg-[#DF6810] focus:outline-none focus:ring-4 focus:ring-orange-200 disabled:cursor-not-allowed disabled:opacity-60"
+                  class="group/btn relative flex min-h-12 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-[#F47B20] px-6 text-sm font-semibold text-white shadow-lg shadow-orange-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#DF6810] hover:shadow-xl hover:shadow-orange-500/30 focus:outline-none focus:ring-4 focus:ring-orange-200 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  <LoaderIcon v-if="isSubmitting" class="h-4 w-4 animate-spin" />
-                  <SendIcon v-else class="h-4 w-4" />
-                  {{ isSubmitting ? 'Envoi en cours...' : 'Envoyer le message' }}
+                  <span class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover/btn:translate-x-full" />
+                  <LoaderIcon v-if="isSubmitting" class="relative h-4 w-4 animate-spin" />
+                  <SendIcon v-else class="relative h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
+                  <span class="relative">{{ isSubmitting ? 'Envoi en cours...' : 'Envoyer le message' }}</span>
                 </button>
               </form>
             </div>
@@ -280,18 +314,22 @@
           <aside class="space-y-6 lg:col-span-5">
 
             <!-- Bloc coordonnées -->
-            <div class="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-md sm:p-7">
-              <h3 class="text-base font-bold text-[#101D35]">
+            <div class="reveal rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-md transition-all duration-500 hover:border-[#F47B20]/30 hover:shadow-xl hover:shadow-orange-500/10 sm:p-7">
+              <h3 class="flex items-center gap-2 text-base font-bold text-[#101D35]">
+                <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-orange-50 text-[#F47B20]">
+                  <MapPinIcon class="h-3.5 w-3.5" />
+                </div>
                 Nos coordonnées
               </h3>
 
               <ul class="mt-5 space-y-4">
                 <li
-                  v-for="item in contactDetails"
+                  v-for="(item, i) in contactDetails"
                   :key="item.label"
-                  class="flex items-start gap-3"
+                  class="group/item flex items-start gap-3 rounded-xl p-1 transition-colors hover:bg-orange-50/30"
+                  :style="{ transitionDelay: `${i * 60}ms` }"
                 >
-                  <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-[#F47B20]">
+                  <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 text-[#F47B20] transition-all duration-500 group-hover/item:scale-110 group-hover/item:from-[#F47B20] group-hover/item:to-[#FF8A24] group-hover/item:text-white">
                     <component :is="item.icon" class="h-5 w-5" />
                   </div>
                   <div>
@@ -310,8 +348,11 @@
             </div>
 
             <!-- Horaires -->
-            <div class="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-md sm:p-7">
-              <h3 class="text-base font-bold text-[#101D35]">
+            <div class="reveal rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-md transition-all duration-500 hover:border-[#F47B20]/30 hover:shadow-xl hover:shadow-orange-500/10 sm:p-7">
+              <h3 class="flex items-center gap-2 text-base font-bold text-[#101D35]">
+                <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-orange-50 text-[#F47B20]">
+                  <ClockIcon class="h-3.5 w-3.5" />
+                </div>
                 Horaires d'ouverture
               </h3>
 
@@ -333,8 +374,11 @@
             </div>
 
             <!-- Réseaux sociaux -->
-            <div class="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-md sm:p-7">
-              <h3 class="text-base font-bold text-[#101D35]">
+            <div class="reveal rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-md transition-all duration-500 hover:border-[#F47B20]/30 hover:shadow-xl hover:shadow-orange-500/10 sm:p-7">
+              <h3 class="flex items-center gap-2 text-base font-bold text-[#101D35]">
+                <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-orange-50 text-[#F47B20]">
+                  <UsersIcon class="h-3.5 w-3.5" />
+                </div>
                 Suivez-nous
               </h3>
 
@@ -346,7 +390,7 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   :aria-label="s.label"
-                  class="flex h-12 items-center justify-center rounded-xl border-2 border-slate-200 text-slate-600 transition hover:-translate-y-1 hover:border-[#F47B20] hover:bg-[#F47B20] hover:text-white"
+                  class="flex h-12 items-center justify-center rounded-xl border-2 border-slate-200 text-slate-600 transition-all duration-300 hover:-translate-y-1 hover:border-[#F47B20] hover:bg-[#F47B20] hover:text-white hover:shadow-lg hover:shadow-orange-500/30"
                 >
                   <component :is="s.icon" class="h-5 w-5" />
                 </a>
@@ -354,9 +398,11 @@
             </div>
 
             <!-- CTA urgence -->
-            <div class="rounded-3xl bg-[#101D35] p-6 text-white shadow-md sm:p-7">
-              <div class="flex items-start gap-3">
-                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-orange-400/15 text-[#FF9A42]">
+            <div class="reveal relative overflow-hidden rounded-3xl bg-[#101D35] p-6 text-white shadow-md sm:p-7">
+              <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 animate-pulse-slow rounded-full bg-gradient-to-br from-[#F47B20]/30 to-transparent blur-2xl" />
+
+              <div class="relative flex items-start gap-3">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#F47B20]/25 to-[#FF8A24]/15 text-[#FF9A42]">
                   <AlertCircleIcon class="h-5 w-5" />
                 </div>
                 <div>
@@ -366,10 +412,11 @@
                   </p>
                   <a
                     href="tel:+2252722445566"
-                    class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#FF9A42] hover:underline"
+                    class="group/tel mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#FF9A42] transition hover:gap-3"
                   >
                     <PhoneIcon class="h-4 w-4" />
                     +225 27 22 44 55 66
+                    <ArrowUpRightIcon class="h-3.5 w-3.5" />
                   </a>
                 </div>
               </div>
@@ -383,9 +430,9 @@
          FAQ RAPIDE
     =================================================== -->
     <section class="bg-white">
-      <div class="mx-auto max-w-4xl px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+      <div class="mx-auto max-w-4xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
 
-        <div class="mb-10 text-center">
+        <div class="reveal mb-10 text-center">
           <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#F47B20]">
             Questions fréquentes
           </p>
@@ -401,7 +448,8 @@
           <details
             v-for="(faq, i) in faqs"
             :key="i"
-            class="group rounded-2xl border-2 border-slate-200 bg-white p-5 transition open:border-[#F47B20] open:shadow-lg hover:border-orange-200"
+            class="reveal group rounded-2xl border-2 border-slate-200 bg-white p-5 transition-all duration-300 open:border-[#F47B20] open:bg-orange-50/20 open:shadow-lg hover:border-orange-200"
+            :style="{ transitionDelay: `${i * 60}ms` }"
           >
             <summary class="flex cursor-pointer list-none items-center justify-between gap-4">
               <span class="text-sm font-bold text-[#101D35] sm:text-base">
@@ -415,10 +463,10 @@
           </details>
         </div>
 
-        <div class="mt-10 text-center">
+        <div class="reveal mt-10 text-center">
           <RouterLink
             to="/faq"
-            class="inline-flex items-center gap-2 text-sm font-semibold text-[#F47B20] hover:underline"
+            class="group inline-flex items-center gap-2 text-sm font-semibold text-[#F47B20] transition hover:gap-3"
           >
             Voir toutes les questions
             <ArrowRightIcon class="h-4 w-4" />
@@ -431,7 +479,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted, onUnmounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import {
   Mail as MailIcon,
@@ -446,13 +494,15 @@ import {
   ChevronDown as ChevronDownIcon,
   Loader as LoaderIcon,
   ArrowRight as ArrowRightIcon,
+  ArrowUpRight as ArrowUpRightIcon,
+  Users as UsersIcon,
   Linkedin as LinkedinIcon,
   Facebook as FacebookIcon,
   Twitter as TwitterIcon,
 } from 'lucide-vue-next'
 
 /* ============================================================
- * IMAGE IMPORTÉE DANS LE SCRIPT
+ * IMAGE
  * ============================================================ */
 import contactHero from '@/assets/images/header-1.jpg'
 
@@ -463,8 +513,8 @@ const quickContacts = [
   {
     icon: MailIcon,
     label: 'Email',
-    value: 'contact@phenixjobs.ci',
-    href: 'mailto:contact@phenixjobs.ci',
+    value: 'contact@phoenixjobs.ci',
+    href: 'mailto:contact@phoenixjobs.ci',
   },
   {
     icon: PhoneIcon,
@@ -516,13 +566,11 @@ const handleSubmit = async () => {
   isSubmitting.value = true
   submitted.value = false
 
-  // 🔌 À remplacer par l'appel API réel
   await new Promise((resolve) => setTimeout(resolve, 1200))
 
   isSubmitting.value = false
   submitted.value = true
 
-  // Reset
   form.fullname = ''
   form.email = ''
   form.phone = ''
@@ -530,7 +578,6 @@ const handleSubmit = async () => {
   form.message = ''
   form.consent = false
 
-  // Hide success after 6s
   setTimeout(() => (submitted.value = false), 6000)
 }
 
@@ -542,12 +589,12 @@ const contactDetails = [
     icon: MapPinIcon,
     label: 'Adresse',
     value: 'Cocody, Riviera Golf',
-    sub: 'Abidjan, Côte d’Ivoire',
+    sub: "Abidjan, Côte d'Ivoire",
   },
   {
     icon: MailIcon,
     label: 'Email',
-    value: 'contact@phenixjobs.ci',
+    value: 'contact@phoenixjobs.ci',
     sub: 'Réponse sous 24h ouvrées',
   },
   {
@@ -581,23 +628,23 @@ const socials = [
 ]
 
 /* ============================================================
- * FAQ RAPIDE
+ * FAQ
  * ============================================================ */
 const faqs = [
   {
     question: 'Combien de temps pour recevoir une réponse ?',
     answer:
-      'Nous répondons généralement sous 24 heures ouvrées. Pour les demandes urgentes, privilégiez l’appel téléphonique.',
+      "Nous répondons généralement sous 24 heures ouvrées. Pour les demandes urgentes, privilégiez l'appel téléphonique.",
   },
   {
     question: 'Comment devenir entreprise partenaire ?',
     answer:
-      'Sélectionnez « Partenariat » dans le formulaire ou écrivez directement à partenariats@phenixjobs.ci. Notre équipe vous recontactera.',
+      'Sélectionnez « Partenariat » dans le formulaire ou écrivez directement à partenariats@phoenixjobs.ci. Notre équipe vous recontactera.',
   },
   {
     question: 'Puis-je signaler une offre suspecte ?',
     answer:
-      'Oui, utilisez le sujet « Signaler un problème » et précisez l’identifiant de l’offre. Nous traitons chaque signalement sérieusement.',
+      "Oui, utilisez le sujet « Signaler un problème » et précisez l'identifiant de l'offre. Nous traitons chaque signalement sérieusement.",
   },
   {
     question: 'Proposez-vous un support technique ?',
@@ -605,4 +652,109 @@ const faqs = [
       'Absolument. Sélectionnez « Support technique » dans le formulaire et décrivez précisément le problème rencontré.',
   },
 ]
+
+/* ============================================================
+ * OBSERVER REVEAL
+ * ============================================================ */
+let observer: IntersectionObserver | undefined
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer?.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -60px 0px' },
+  )
+
+  document.querySelectorAll('.reveal').forEach((el) => observer?.observe(el))
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
+})
 </script>
+
+<style scoped>
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 50s linear infinite;
+}
+.animate-spin-slow-reverse {
+  animation: spin-slow 70s linear infinite reverse;
+}
+
+@keyframes heroEnter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero-enter {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: heroEnter 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.hero-enter-1 { animation-delay: 0.05s; }
+.hero-enter-2 { animation-delay: 0.2s; }
+.hero-enter-3 { animation-delay: 0.35s; }
+.hero-enter-4 { animation-delay: 0.5s; }
+.hero-enter-5 { animation-delay: 0.4s; }
+
+/* ============================================================
+   REVEAL AU SCROLL
+============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   DÉTAILS <summary>
+============================================================ */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* ============================================================
+   ACCESSIBILITÉ
+============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal,
+  .hero-enter {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+</style>

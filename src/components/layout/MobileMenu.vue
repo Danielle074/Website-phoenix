@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { watch, onUnmounted } from 'vue'
 import { X } from 'lucide-vue-next'
 import logo from '@/assets/images/logophoenix.png'
 
-defineProps<{
+const props = defineProps<{
   open: boolean
   links: { label: string; to: string }[]
 }>()
@@ -12,10 +13,25 @@ const emit = defineEmits<{
 }>()
 
 const close = () => emit('update:open', false)
+
+// Empêche le scroll du body quand le menu est ouvert
+watch(
+  () => props.open,
+  (isOpen) => {
+    if (typeof document === 'undefined') return
+    document.body.style.overflow = isOpen ? 'hidden' : ''
+  },
+)
+
+onUnmounted(() => {
+  if (typeof document !== 'undefined') {
+    document.body.style.overflow = ''
+  }
+})
 </script>
 
 <template>
-  <!-- OVERLAY -->
+  <!-- OVERLAY — fond sombre + flou pour bien isoler le menu -->
   <Transition
     enter-active-class="transition-opacity duration-300"
     enter-from-class="opacity-0"
@@ -26,12 +42,12 @@ const close = () => emit('update:open', false)
   >
     <div
       v-if="open"
-      class="fixed inset-0 z-[60] bg-black/50 md:hidden"
+      class="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm md:hidden"
       @click="close"
     />
   </Transition>
 
-  <!-- PANNEAU LATÉRAL -->
+  <!-- PANNEAU LATÉRAL — fond 100% opaque -->
   <Transition
     enter-active-class="transition-transform duration-300 ease-out"
     enter-from-class="translate-x-full"
@@ -42,30 +58,36 @@ const close = () => emit('update:open', false)
   >
     <aside
       v-if="open"
-      class="fixed top-0 right-0 z-[70] h-full w-[85%] max-w-sm bg-white shadow-2xl flex flex-col md:hidden"
+      class="fixed top-0 right-0 z-[70] flex h-full w-[92%] max-w-sm flex-col bg-white shadow-2xl md:hidden"
+      style="background-color: #ffffff;"
       role="dialog"
+      aria-modal="true"
       aria-label="Menu de navigation"
     >
       <!-- HEADER DU MENU -->
-      <div class="flex items-center justify-between px-5 h-16 border-b border-gray-100">
-        <img :src="logo" alt="PHENIX" class="h-9 w-auto object-contain" />
+      <div class="flex h-16 shrink-0 items-center justify-between border-b border-slate-100 bg-white px-5">
+        <img :src="logo" alt="PHOENIX" class="h-9 w-auto object-contain" />
         <button
-          class="p-2 rounded-md text-[#153765] hover:bg-gray-100 transition-colors"
+          type="button"
+          class="flex h-10 w-10 items-center justify-center rounded-lg text-[#153765] transition-colors hover:bg-slate-100 active:bg-slate-200"
           aria-label="Fermer le menu"
           @click="close"
         >
-          <X class="w-6 h-6" />
+          <X class="h-5 w-5" />
         </button>
       </div>
 
       <!-- LIENS -->
-      <nav class="flex-1 overflow-y-auto px-5 py-6">
-        <ul class="flex flex-col gap-1">
+      <nav class="flex-1 overflow-y-auto bg-white px-5 py-6">
+        <p class="mb-4 px-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-400">
+          Navigation
+        </p>
+        <ul class="flex flex-col gap-2">
           <li v-for="link in links" :key="link.to">
             <RouterLink
               :to="link.to"
-              class="block px-4 py-3 rounded-md text-base font-medium text-[#1d2849] hover:bg-[#F9FAFB] hover:text-[#ed6732] transition-colors"
-              active-class="bg-[#F9FAFB] text-[#ed6732]"
+              class="block rounded-xl border border-slate-100 bg-white px-5 py-4 text-base font-semibold text-[#1d2849] transition-colors hover:border-[#ed6732]/30 hover:bg-[#F9FAFB] hover:text-[#ed6732] active:bg-slate-100"
+              active-class="border-[#ed6732]/40 bg-[#FFF5EF] text-[#ed6732]"
               @click="close"
             >
               {{ link.label }}
@@ -75,21 +97,23 @@ const close = () => emit('update:open', false)
       </nav>
 
       <!-- CTA EN BAS -->
-      <div class="px-5 py-5 border-t border-gray-100 flex flex-col gap-3">
-        <RouterLink
-          to="/login"
-          class="w-full py-3 text-center text-base font-medium text-[#153765] border border-[#153765] rounded-md hover:bg-[#153765] hover:text-white transition-all min-h-[48px] flex items-center justify-center"
-          @click="close"
-        >
-          Connexion
-        </RouterLink>
-        <RouterLink
-          to="/register"
-          class="w-full py-3 text-center text-base font-semibold text-white bg-[#ed6732] rounded-md hover:bg-[#f28b3e] transition-all min-h-[48px] flex items-center justify-center shadow-sm"
-          @click="close"
-        >
-          S'inscrire
-        </RouterLink>
+      <div class="shrink-0 border-t border-slate-100 bg-white px-5 py-5">
+        <div class="flex flex-col gap-3">
+          <RouterLink
+            to="/login"
+            class="flex min-h-[48px] w-full items-center justify-center rounded-xl border border-[#153765] py-3 text-base font-medium text-[#153765] transition-all hover:bg-[#153765] hover:text-white active:scale-[0.98]"
+            @click="close"
+          >
+            Connexion
+          </RouterLink>
+          <RouterLink
+            to="/register"
+            class="flex min-h-[48px] w-full items-center justify-center rounded-xl bg-[#ed6732] py-3 text-base font-semibold text-white shadow-sm shadow-orange-500/20 transition-all hover:bg-[#f28b3e] active:scale-[0.98]"
+            @click="close"
+          >
+            S'inscrire
+          </RouterLink>
+        </div>
       </div>
     </aside>
   </Transition>

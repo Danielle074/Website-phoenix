@@ -2,39 +2,48 @@
   <main class="min-h-screen bg-[#F8FAFC] text-slate-900">
 
     <!-- ==================================================
-         EN-TÊTE DE PAGE
+         EN-TÊTE DE PAGE (INCHANGÉ)
     =================================================== -->
-    <section class="bg-[#101D35] text-white">
-      <div class="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-10 lg:py-16">
-        <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#FF9A42]">
+    <section class="relative overflow-hidden bg-[#101D35] text-white">
+      <!-- Décorations animées -->
+      <div class="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] animate-pulse-slow rounded-full border border-white/[0.06]" />
+      <div class="pointer-events-none absolute -right-20 -top-20 h-[350px] w-[350px] animate-pulse-slow rounded-full border border-white/[0.08]" style="animation-delay: 1.5s" />
+      <div class="pointer-events-none absolute -left-32 bottom-0 h-[380px] w-[380px] animate-pulse-slow rounded-full bg-gradient-to-tr from-[#F47B20]/10 to-transparent blur-3xl" style="animation-delay: 3s" />
+      <div class="pointer-events-none absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px); background-size: 80px 80px;" />
+
+      <div class="relative mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-10 lg:py-16">
+        <p class="hero-enter hero-enter-1 text-xs font-bold uppercase tracking-[0.18em] text-[#FF9A42]">
           Explorez les opportunités
         </p>
 
-        <h1 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-          Trouvez l'emploi qui vous correspond
+        <h1 class="hero-enter hero-enter-2 mt-3 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+          Trouvez l'emploi
+          <span class="bg-gradient-to-r from-[#FF8A24] via-[#FFB067] to-[#FF8A24] bg-clip-text text-transparent">
+            qui vous correspond
+          </span>
         </h1>
 
-        <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
+        <p class="hero-enter hero-enter-3 mt-4 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
           Parcourez {{ allJobs.length }}+ offres vérifiées et postulez en quelques clics.
         </p>
 
         <!-- Barre de recherche rapide -->
-        <div class="mt-7 rounded-2xl bg-white p-2 shadow-xl sm:flex sm:items-center">
-          <div class="flex min-w-0 flex-1 items-center gap-3 border-b border-slate-100 px-3 py-3 sm:border-b-0 sm:border-r sm:border-slate-200">
-            <SearchIcon class="h-5 w-5 shrink-0 text-[#F47B20]" />
+        <div class="hero-enter hero-enter-4 mt-7 rounded-2xl border border-white/10 bg-white/[0.07] p-2 shadow-2xl shadow-black/40 backdrop-blur-2xl sm:flex sm:items-center">
+          <div class="flex min-w-0 flex-1 items-center gap-3 border-b border-white/10 px-3 py-3 sm:border-b-0 sm:border-r">
+            <SearchIcon class="h-5 w-5 shrink-0 text-[#FF8A24]" />
             <input
               v-model="searchQuery"
               type="search"
               placeholder="Poste, entreprise, mot-clé..."
-              class="w-full bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
+              class="w-full bg-transparent text-sm text-white outline-none placeholder:text-slate-500"
             />
           </div>
 
           <div class="flex min-w-0 flex-1 items-center gap-3 px-3 py-3">
-            <MapPinIcon class="h-5 w-5 shrink-0 text-[#F47B20]" />
+            <MapPinIcon class="h-5 w-5 shrink-0 text-[#FF8A24]" />
             <select
               v-model="selectedLocation"
-              class="w-full bg-transparent text-sm text-slate-700 outline-none"
+              class="w-full cursor-pointer bg-transparent text-sm text-white outline-none [&>option]:bg-[#101D35] [&>option]:text-white"
             >
               <option value="">Toute la Côte d'Ivoire</option>
               <option v-for="loc in locations" :key="loc" :value="loc">
@@ -44,9 +53,11 @@
           </div>
 
           <button
-            class="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#F47B20] px-6 text-sm font-semibold text-white transition hover:bg-[#DF6810] sm:w-auto"
+            class="group/btn relative mt-2 flex min-h-12 w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-[#F47B20] px-6 text-sm font-semibold text-white transition hover:bg-[#DF6810] sm:mt-0 sm:w-auto"
           >
-            Rechercher
+            <span class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover/btn:translate-x-full" />
+            <span class="relative">Rechercher</span>
+            <ArrowRightIcon class="relative h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
           </button>
         </div>
       </div>
@@ -74,20 +85,20 @@
               </h2>
               <button
                 v-if="activeFiltersCount > 0"
-                class="text-xs font-semibold text-slate-500 hover:text-[#F47B20]"
+                class="text-xs font-semibold text-slate-500 transition hover:text-[#F47B20]"
                 @click="resetFilters"
               >
                 Réinitialiser
               </button>
             </div>
 
-            <div class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm">
+            <div class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm transition hover:border-[#F47B20]/30 hover:shadow-lg hover:shadow-orange-500/10">
               <h3 class="mb-3 text-sm font-bold text-[#101D35]">Catégorie</h3>
               <div class="space-y-2">
                 <label
                   v-for="cat in categories"
                   :key="cat"
-                  class="flex cursor-pointer items-center gap-2 text-sm text-slate-600 hover:text-[#F47B20]"
+                  class="flex cursor-pointer items-center gap-2 text-sm text-slate-600 transition hover:text-[#F47B20]"
                 >
                   <input
                     v-model="selectedCategory"
@@ -97,7 +108,7 @@
                   />
                   {{ cat }}
                 </label>
-                <label class="flex cursor-pointer items-center gap-2 text-sm text-slate-600 hover:text-[#F47B20]">
+                <label class="flex cursor-pointer items-center gap-2 text-sm text-slate-600 transition hover:text-[#F47B20]">
                   <input
                     v-model="selectedCategory"
                     type="radio"
@@ -109,13 +120,13 @@
               </div>
             </div>
 
-            <div class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm">
+            <div class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm transition hover:border-[#F47B20]/30 hover:shadow-lg hover:shadow-orange-500/10">
               <h3 class="mb-3 text-sm font-bold text-[#101D35]">Type de contrat</h3>
               <div class="space-y-2">
                 <label
                   v-for="c in contracts"
                   :key="c"
-                  class="flex cursor-pointer items-center gap-2 text-sm text-slate-600 hover:text-[#F47B20]"
+                  class="flex cursor-pointer items-center gap-2 text-sm text-slate-600 transition hover:text-[#F47B20]"
                 >
                   <input
                     type="checkbox"
@@ -128,11 +139,11 @@
               </div>
             </div>
 
-            <div class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm">
+            <div class="rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-sm transition hover:border-[#F47B20]/30 hover:shadow-lg hover:shadow-orange-500/10">
               <h3 class="mb-3 text-sm font-bold text-[#101D35]">Localisation</h3>
               <select
                 v-model="selectedLocation"
-                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-[#F47B20]"
+                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none transition focus:border-[#F47B20]"
               >
                 <option value="">Toutes les villes</option>
                 <option v-for="loc in locations" :key="loc" :value="loc">
@@ -154,7 +165,7 @@
 
             <div class="flex items-center gap-3">
               <button
-                class="flex items-center gap-2 rounded-lg border-2 border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-[#101D35] lg:hidden"
+                class="flex items-center gap-2 rounded-lg border-2 border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-[#101D35] transition hover:border-[#F47B20] hover:text-[#F47B20] lg:hidden"
                 @click="showMobileFilters = true"
               >
                 <SlidersIcon class="h-4 w-4" />
@@ -170,7 +181,7 @@
               <div class="relative">
                 <select
                   v-model="sortBy"
-                  class="appearance-none rounded-lg border-2 border-slate-200 bg-white py-2 pl-3 pr-9 text-sm font-semibold text-[#101D35] outline-none focus:border-[#F47B20]"
+                  class="appearance-none rounded-lg border-2 border-slate-200 bg-white py-2 pl-3 pr-9 text-sm font-semibold text-[#101D35] outline-none transition focus:border-[#F47B20]"
                 >
                   <option value="recent">Plus récentes</option>
                   <option value="salary-desc">Salaire (décroissant)</option>
@@ -181,14 +192,33 @@
             </div>
           </div>
 
-          <div v-if="filteredJobs.length" class="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <!-- GRILLE DES OFFRES — CARTES PREMIUM -->
+          <TransitionGroup
+            v-if="filteredJobs.length"
+            tag="div"
+            name="job-list"
+            class="grid grid-cols-1 gap-5 md:grid-cols-2"
+          >
             <article
-              v-for="job in filteredJobs"
+              v-for="(job, i) in filteredJobs"
               :key="job.id"
-              class="group flex flex-col rounded-2xl border-2 border-slate-200 bg-white p-6 shadow-md transition duration-300 hover:-translate-y-1.5 hover:border-[#F47B20] hover:shadow-2xl hover:shadow-orange-500/15"
+              class="job-card group relative flex flex-col overflow-hidden rounded-2xl border-2 border-slate-200 bg-white p-6 shadow-md"
+              :style="{ '--i': i }"
+              @mousemove="handleCardTilt($event)"
+              @mouseleave="resetCardTilt($event)"
             >
-              <div class="flex items-start justify-between">
-                <div class="flex h-16 w-16 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-3 shadow-sm">
+              <!-- Barre dégradée top -->
+              <div class="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-[#F47B20] via-[#FF8A24] to-[#FFB067] transition-transform duration-500 group-hover:scale-x-100" />
+
+              <!-- Halo radial qui suit la souris -->
+              <div class="card-halo pointer-events-none absolute -inset-32 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+              <!-- Coins décoratifs (accents) -->
+              <div class="pointer-events-none absolute -right-10 -top-10 h-24 w-24 rounded-full bg-gradient-to-br from-orange-100/0 to-orange-100/0 transition-all duration-700 group-hover:from-orange-100/60 group-hover:to-transparent" />
+
+              <!-- Header carte -->
+              <div class="relative flex items-start justify-between">
+                <div class="flex h-16 w-16 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-3 shadow-sm transition-all duration-500 group-hover:-rotate-3 group-hover:border-orange-200 group-hover:bg-orange-50/70 group-hover:shadow-lg group-hover:shadow-orange-500/20">
                   <img
                     :src="job.logo"
                     :alt="`Logo ${job.company}`"
@@ -197,68 +227,76 @@
                 </div>
 
                 <button
-                  class="rounded-full p-2 text-slate-400 transition hover:bg-red-50 hover:text-red-500"
+                  class="relative rounded-full p-2 text-slate-400 transition-all duration-300 hover:scale-110 hover:bg-red-50 hover:text-red-500 active:scale-95"
                   aria-label="Ajouter aux favoris"
                 >
                   <HeartIcon class="h-5 w-5" />
                 </button>
               </div>
 
-              <div class="mt-4 flex flex-wrap gap-2">
+              <!-- Badges -->
+              <div class="relative mt-4 flex flex-wrap gap-2">
                 <span
                   v-if="job.isUrgent"
-                  class="rounded-full bg-red-100 px-2.5 py-1 text-[10px] font-bold uppercase text-red-700"
+                  class="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-red-500 to-red-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm shadow-red-500/30"
                 >
+                  <FlameIcon class="h-2.5 w-2.5" />
                   Urgent
                 </span>
                 <span
                   v-if="job.isVerified"
-                  class="rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-bold text-emerald-700"
+                  class="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm shadow-emerald-500/30"
                 >
-                  ✓ Vérifiée
+                  <ShieldCheckIcon class="h-2.5 w-2.5" />
+                  Vérifiée
                 </span>
-                <span class="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-700">
+                <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-700 ring-1 ring-slate-200">
                   {{ job.contract }}
                 </span>
               </div>
 
-              <p class="mt-4 text-xs font-semibold text-slate-500">
+              <!-- Infos entreprise / poste -->
+              <p class="relative mt-4 text-xs font-semibold text-slate-500">
                 {{ job.company }}
               </p>
-              <h3 class="mt-1 text-lg font-bold leading-snug text-[#101D35] transition group-hover:text-[#F47B20]">
+              <h3 class="relative mt-1 text-lg font-bold leading-snug text-[#101D35] transition-colors group-hover:text-[#F47B20]">
                 {{ job.title }}
               </h3>
 
-              <div class="mt-4 space-y-2 border-t border-slate-100 pt-4">
+              <!-- Métadonnées -->
+              <div class="relative mt-4 space-y-2 border-t border-slate-100 pt-4">
                 <div class="flex items-center gap-2 text-xs text-slate-500">
-                  <MapPinIcon class="h-4 w-4 shrink-0 text-slate-400" />
+                  <MapPinIcon class="h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-[#F47B20]" />
                   <span>{{ job.location }}, Côte d'Ivoire</span>
                 </div>
 
                 <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
-                  <BanknoteIcon class="h-4 w-4 shrink-0 text-slate-400" />
+                  <BanknoteIcon class="h-4 w-4 shrink-0 text-slate-400 transition-colors group-hover:text-[#F47B20]" />
                   <span>{{ job.salary }}</span>
                 </div>
 
                 <div class="flex items-center gap-2 text-xs text-slate-400">
-                  <ClockIcon class="h-4 w-4 shrink-0" />
+                  <ClockIcon class="h-4 w-4 shrink-0 transition-colors group-hover:text-[#F47B20]" />
                   <span>{{ job.postedAt }}</span>
                 </div>
               </div>
 
+              <!-- CTA -->
               <RouterLink
                 :to="`/jobs/${job.id}`"
-                class="mt-6 flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-[#101D35] bg-[#101D35] text-sm font-semibold text-white transition hover:border-[#F47B20] hover:bg-[#F47B20]"
+                class="relative mt-6 flex min-h-11 items-center justify-center gap-2 overflow-hidden rounded-xl border-2 border-[#101D35] bg-[#101D35] text-sm font-semibold text-white transition-all duration-300 hover:border-[#F47B20] hover:bg-[#F47B20]"
               >
-                Consulter l'offre
-                <ArrowUpRightIcon class="h-4 w-4" />
+                <span class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                <span class="relative">Consulter l'offre</span>
+                <ArrowUpRightIcon class="relative h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </RouterLink>
             </article>
-          </div>
+          </TransitionGroup>
 
+          <!-- État vide -->
           <div
             v-else
-            class="rounded-2xl border-2 border-dashed border-slate-300 bg-white p-12 text-center"
+            class="reveal rounded-2xl border-2 border-dashed border-slate-300 bg-white p-12 text-center"
           >
             <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400">
               <InboxIcon class="h-8 w-8" />
@@ -275,6 +313,7 @@
             </button>
           </div>
 
+          <!-- Pagination -->
           <div
             v-if="filteredJobs.length && totalPages > 1"
             class="mt-10 flex items-center justify-center gap-2"
@@ -294,7 +333,7 @@
               class="flex h-10 w-10 items-center justify-center rounded-lg border-2 text-sm font-bold transition"
               :class="
                 p === currentPage
-                  ? 'border-[#F47B20] bg-[#F47B20] text-white'
+                  ? 'border-[#F47B20] bg-[#F47B20] text-white shadow-lg shadow-orange-500/30'
                   : 'border-slate-200 bg-white text-slate-600 hover:border-[#F47B20] hover:text-[#F47B20]'
               "
               @click="goToPage(p)"
@@ -315,7 +354,7 @@
       </div>
     </section>
 
-    <!-- DRAWER FILTRES MOBILE -->
+    <!-- DRAWER FILTRES MOBILE (INCHANGÉ) -->
     <Transition
       enter-active-class="transition-opacity duration-300"
       enter-from-class="opacity-0"
@@ -326,7 +365,7 @@
     >
       <div
         v-if="showMobileFilters"
-        class="fixed inset-0 z-[60] bg-black/50 lg:hidden"
+        class="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden"
         @click="showMobileFilters = false"
       />
     </Transition>
@@ -343,10 +382,12 @@
         v-if="showMobileFilters"
         class="fixed inset-x-0 bottom-0 z-[70] max-h-[90vh] overflow-y-auto rounded-t-3xl bg-white p-6 shadow-2xl lg:hidden"
       >
+        <div class="mx-auto mb-4 h-1.5 w-12 rounded-full bg-slate-200" />
+
         <div class="mb-5 flex items-center justify-between">
           <h2 class="text-lg font-bold text-[#101D35]">Filtres</h2>
           <button
-            class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600"
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-slate-200"
             aria-label="Fermer"
             @click="showMobileFilters = false"
           >
@@ -435,7 +476,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import {
   Search as SearchIcon,
   MapPin as MapPinIcon,
@@ -445,15 +486,18 @@ import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
   ChevronDown as ChevronDownIcon,
+  ArrowRight as ArrowRightIcon,
   ArrowUpRight as ArrowUpRightIcon,
   Heart as HeartIcon,
   Clock as ClockIcon,
   Inbox as InboxIcon,
+  Flame as FlameIcon,
+  ShieldCheck as ShieldCheckIcon,
 } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
 
 /* ============================================================
- * LOGOS IMPORTÉS DANS LE SCRIPT
+ * LOGOS
  * ============================================================ */
 import orangeLogo from '@/assets/images/orange.png'
 import sanlamLogo from '@/assets/images/sanlam.jpg'
@@ -680,7 +724,7 @@ const filteredJobs = computed(() => {
 })
 
 /* ============================================================
- * PAGINATION (mock)
+ * PAGINATION
  * ============================================================ */
 const currentPage = ref(1)
 const totalPages = computed(() => Math.max(1, Math.ceil(filteredJobs.value.length / 8)))
@@ -688,4 +732,158 @@ const totalPages = computed(() => Math.max(1, Math.ceil(filteredJobs.value.lengt
 const goToPage = (p: number) => {
   if (p >= 1 && p <= totalPages.value) currentPage.value = p
 }
+
+/* ============================================================
+ * TILT 3D DES CARTES
+ * ============================================================ */
+const handleCardTilt = (e: MouseEvent) => {
+  const el = e.currentTarget as HTMLElement
+  if (!el) return
+  const rect = el.getBoundingClientRect()
+  const x = e.clientX - rect.left
+  const y = e.clientY - rect.top
+  el.style.setProperty('--mx', `${x}px`)
+  el.style.setProperty('--my', `${y}px`)
+  const rotateX = ((y / rect.height) - 0.5) * -5
+  const rotateY = ((x / rect.width) - 0.5) * 5
+  el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`
+}
+
+const resetCardTilt = (e: MouseEvent) => {
+  const el = e.currentTarget as HTMLElement
+  if (el) el.style.transform = ''
+}
+
+/* ============================================================
+ * OBSERVER REVEAL
+ * ============================================================ */
+let observer: IntersectionObserver | undefined
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer?.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -60px 0px' },
+  )
+
+  document.querySelectorAll('.reveal').forEach((el) => observer?.observe(el))
+})
+
+onUnmounted(() => {
+  observer?.disconnect()
+})
 </script>
+
+<style scoped>
+/* ============================================================
+   ANIMATIONS HEADER
+============================================================ */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
+}
+
+@keyframes heroEnter {
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-enter {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: heroEnter 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.hero-enter-1 { animation-delay: 0.1s; }
+.hero-enter-2 { animation-delay: 0.25s; }
+.hero-enter-3 { animation-delay: 0.4s; }
+.hero-enter-4 { animation-delay: 0.55s; }
+
+/* ============================================================
+   CARTES OFFRES — TILT 3D + HALO
+============================================================ */
+.job-card {
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease,
+    border-color 0.3s ease;
+  will-change: transform;
+}
+
+.job-card:hover {
+  border-color: rgb(244 123 32 / 0.55);
+  box-shadow:
+    0 25px 50px -20px rgb(244 123 32 / 0.28),
+    0 15px 30px -15px rgb(0 0 0 / 0.12);
+}
+
+/* Halo radial qui suit la souris */
+.card-halo {
+  background: radial-gradient(
+    400px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(244, 123, 32, 0.12),
+    transparent 40%
+  );
+}
+
+/* ============================================================
+   TRANSITION LISTE (filtrage)
+============================================================ */
+.job-list-enter-active,
+.job-list-leave-active {
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.job-list-enter-from {
+  opacity: 0;
+  transform: translateY(20px) scale(0.97);
+}
+.job-list-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+.job-list-move {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================================================
+   REVEAL AU SCROLL
+============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   ACCESSIBILITÉ
+============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal,
+  .hero-enter {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .job-card:hover {
+    transform: none !important;
+  }
+}
+</style>
