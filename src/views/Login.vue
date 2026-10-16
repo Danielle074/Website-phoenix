@@ -1,39 +1,34 @@
 <template>
   <div class="min-h-screen w-full bg-white lg:grid lg:grid-cols-2">
 
- 
+    <!-- ==================================================
+         PANNEAU GAUCHE (DESKTOP)
+    =================================================== -->
     <aside class="relative hidden overflow-hidden bg-[#101D35] lg:flex lg:flex-col lg:justify-between">
 
-      <!-- Image de fond -->
       <img
         :src="loginHero"
         alt="Travailler en Côte d'Ivoire"
         class="absolute inset-0 h-full w-full object-cover"
       />
 
-      <!-- Overlay dégradé -->
       <div class="absolute inset-0 bg-gradient-to-br from-[#101D35]/90 via-[#101D35]/75 to-[#101D35]/60" />
 
-      <!-- Décorations -->
       <div class="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full border border-white/[0.06]" />
       <div class="pointer-events-none absolute -right-20 -top-20 h-[350px] w-[350px] rounded-full border border-white/[0.08]" />
 
-      <!-- Contenu -->
       <div class="relative z-10 flex h-full flex-col justify-between p-10 xl:p-14">
 
-        <!-- Logo -->
         <RouterLink to="/" class="inline-flex items-center gap-2">
           <img
             :src="logo"
-            alt="PHENIX Jobs & Carrières"
+            alt="PHOENIX Jobs & Carrières"
             class="h-10 w-auto object-contain brightness-0 invert"
           />
         </RouterLink>
 
-        <!-- Bloc central -->
         <div class="max-w-md">
           <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 text-xs font-medium text-slate-200">
-          
             La plateforme de l'emploi en Côte d'Ivoire
           </span>
 
@@ -47,7 +42,6 @@
             candidatures et découvrir de nouvelles opportunités.
           </p>
 
-          <!-- Avantages -->
           <ul class="mt-8 space-y-3">
             <li
               v-for="benefit in benefits"
@@ -62,11 +56,10 @@
           </ul>
         </div>
 
-        <!-- Témoignage en bas -->
         <div class="rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-sm">
           <QuoteIcon class="h-5 w-5 text-[#FF9A42]" />
           <p class="mt-3 text-sm leading-6 text-slate-200 italic">
-            "Grâce à PHENIX, j'ai trouvé mon premier emploi à Abidjan en moins d'un mois."
+            "Grâce à PHOENIX, j'ai trouvé mon premier emploi à Abidjan en moins d'un mois."
           </p>
           <div class="mt-3 flex items-center gap-3">
             <div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#F47B20] text-sm font-bold text-white">
@@ -81,7 +74,9 @@
       </div>
     </aside>
 
-
+    <!-- ==================================================
+         FORMULAIRE
+    =================================================== -->
     <main class="flex min-h-screen items-center justify-center px-5 py-10 sm:px-8 lg:px-10">
 
       <div class="w-full max-w-md">
@@ -91,7 +86,7 @@
           <RouterLink to="/">
             <img
               :src="logo"
-              alt="PHENIX Jobs & Carrières"
+              alt="PHOENIX Jobs & Carrières"
               class="h-12 w-auto object-contain"
             />
           </RouterLink>
@@ -100,14 +95,14 @@
         <!-- Titre -->
         <div class="mb-8">
           <h1 class="text-2xl font-bold tracking-tight text-[#101D35] sm:text-3xl">
-            Bon retour ! 
+            Bon retour !
           </h1>
           <p class="mt-2 text-sm text-slate-500">
             Connectez-vous pour accéder à votre espace personnel.
           </p>
         </div>
 
-        <!-- Toast succès (après inscription par ex.) -->
+        <!-- Toast succès -->
         <Transition
           enter-active-class="transition duration-300"
           enter-from-class="opacity-0 -translate-y-2"
@@ -154,25 +149,25 @@
         <!-- Formulaire -->
         <form class="space-y-5" @submit.prevent="handleSubmit">
 
-          <!-- Email -->
+          <!-- Email / Téléphone -->
           <div>
-            <label for="email" class="mb-2 block text-sm font-semibold text-[#101D35]">
+            <label for="identifier" class="mb-2 block text-sm font-semibold text-[#101D35]">
               Email ou téléphone <span class="text-red-500">*</span>
             </label>
             <div class="relative">
               <MailIcon class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               <input
-                id="email"
-                v-model="form.email"
+                id="identifier"
+                v-model="form.identifier"
                 type="text"
-                autocomplete="email"
+                autocomplete="username"
                 required
                 placeholder="vous@exemple.com"
                 class="w-full rounded-xl border-2 border-slate-200 bg-white py-3 pl-10 pr-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#F47B20] focus:ring-4 focus:ring-orange-100"
               />
             </div>
-            <p v-if="errors.email" class="mt-1 text-xs font-medium text-red-500">
-              {{ errors.email }}
+            <p v-if="errors.identifier" class="mt-1 text-xs font-medium text-red-500">
+              {{ errors.identifier }}
             </p>
           </div>
 
@@ -263,8 +258,8 @@
               type="button"
               class="flex min-h-11 items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
             >
-              <LinkedinIcon class="h-4 w-4" />
-              LinkedIn
+              <AppleIcon class="h-4 w-4" />
+              Apple
             </button>
           </div>
         </form>
@@ -280,7 +275,7 @@
           </RouterLink>
         </p>
 
-        <!-- Retour à l'accueil -->
+        <!-- Retour accueil -->
         <div class="mt-6 text-center">
           <RouterLink
             to="/"
@@ -311,26 +306,27 @@ import {
   Quote as QuoteIcon,
   ArrowLeft as ArrowLeftIcon,
   Chrome as ChromeIcon,
-  Linkedin as LinkedinIcon,
+  Apple as AppleIcon,
 } from 'lucide-vue-next'
 
-/* ============================================================
- * IMAGES IMPORTÉES DANS LE SCRIPT
- * ============================================================ */
 import loginHero from '@/assets/images/feature-4.jpg'
 import logo from '@/assets/images/logophoenix.png'
 
+import { useAuthStore } from '@/stores/auth'
+import { parseApiError } from '@/api/client'
+
 /* ============================================================
- * ROUTER
+ * ROUTER + STORES
  * ============================================================ */
 const router = useRouter()
 const route = useRoute()
+const authStore = useAuthStore()
 
 /* ============================================================
- * ÉTAT
+ * ÉTAT FORMULAIRE
  * ============================================================ */
 const form = reactive({
-  email: '',
+  identifier: '',
   password: '',
   remember: false,
 })
@@ -341,30 +337,35 @@ const showPassword = ref(false)
 const apiError = ref('')
 const successMessage = ref('')
 
-// Message succès si on vient de /register
+// Message succès si on vient de /register ou /reset-password
 if (route.query.registered === '1') {
-  successMessage.value = 'Compte créé avec succès ! Vous pouvez maintenant vous connecter.'
+  successMessage.value =
+    'Compte créé avec succès ! Vous pouvez maintenant vous connecter.'
+} else if (route.query.reset === '1') {
+  successMessage.value =
+    'Mot de passe réinitialisé avec succès. Connectez-vous avec votre nouveau mot de passe.'
 }
 
 /* ============================================================
  * AVANTAGES (panneau gauche)
  * ============================================================ */
 const benefits = [
-  'Postulez gratuitement à des milliers d\'offres',
+  "Postulez gratuitement à des milliers d'offres",
   'Suivez vos candidatures en temps réel',
   'Recevez des alertes personnalisées',
   'Accédez à des entreprises vérifiées',
 ]
 
 /* ============================================================
- * VALIDATION
+ * VALIDATION CLIENT
  * ============================================================ */
 const validate = () => {
   Object.keys(errors).forEach((k) => delete errors[k])
 
-  if (!form.email.trim()) {
-    errors.email = 'L\'email est obligatoire.'
+  if (!form.identifier.trim()) {
+    errors.identifier = 'L\'email ou le téléphone est obligatoire.'
   }
+
   if (!form.password) {
     errors.password = 'Le mot de passe est obligatoire.'
   } else if (form.password.length < 6) {
@@ -385,19 +386,43 @@ const handleSubmit = async () => {
   isSubmitting.value = true
 
   try {
-    // 🔌 À REMPLACER par l'appel API réel (auth.service.ts)
-    // const { token, user } = await authService.login(form.email, form.password)
-    await new Promise((resolve) => setTimeout(resolve, 1200))
+    const result = await authStore.login({
+      identifier: form.identifier,
+      password: form.password,
+    })
 
-    // Simulation : on stocke en localStorage (à remplacer par Pinia plus tard)
-    localStorage.setItem('phenix_token', 'demo-token')
-    localStorage.setItem('phenix_role', 'candidate')
+    // Cas 2FA activée
+    if ('mfa_required' in result && result.mfa_required) {
+      router.push({
+        name: 'login-mfa',
+        query: { token: result.mfa_session_token },
+      })
+      return
+    }
 
-    // Redirection
-    const redirect = (route.query.redirect as string) || '/candidate/dashboard'
-    router.push(redirect)
-  } catch (err: any) {
-    apiError.value = 'Identifiants incorrects. Veuillez réessayer.'
+    // Redirection selon le rôle
+    const redirect = route.query.redirect as string | undefined
+    if (redirect) {
+      router.push(redirect)
+      return
+    }
+
+    switch (authStore.role) {
+      case 'CANDIDATE':
+        router.push({ name: 'candidate-dashboard' })
+        break
+      case 'EMPLOYER':
+        router.push({ name: 'employer-dashboard' })
+        break
+      case 'ADMIN':
+      case 'SUPERADMIN':
+        router.push({ name: 'admin-dashboard' })
+        break
+      default:
+        router.push({ name: 'home' })
+    }
+  } catch (e) {
+    apiError.value = parseApiError(e).message
   } finally {
     isSubmitting.value = false
   }

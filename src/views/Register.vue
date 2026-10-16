@@ -1,45 +1,40 @@
 <template>
   <div class="min-h-screen w-full bg-white lg:grid lg:grid-cols-2">
 
-
+    <!-- ==================================================
+         PANNEAU GAUCHE (DESKTOP)
+    =================================================== -->
     <aside class="relative hidden overflow-hidden bg-[#101D35] lg:flex lg:flex-col lg:justify-between">
 
-      <!-- Image de fond -->
       <img
         :src="registerHero"
-        alt="Rejoindre PHENIX Jobs & Carrières"
+        alt="Rejoindre PHOENIX Jobs & Carrières"
         class="absolute inset-0 h-full w-full object-cover"
       />
 
-      <!-- Overlay dégradé -->
       <div class="absolute inset-0 bg-gradient-to-br from-[#101D35]/90 via-[#101D35]/75 to-[#101D35]/60" />
 
-      <!-- Décorations -->
       <div class="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full border border-white/[0.06]" />
       <div class="pointer-events-none absolute -right-20 -top-20 h-[350px] w-[350px] rounded-full border border-white/[0.08]" />
 
-      <!-- Contenu -->
       <div class="relative z-10 flex h-full flex-col justify-between p-10 xl:p-14">
 
-        <!-- Logo -->
         <RouterLink to="/" class="inline-flex items-center gap-2">
           <img
             :src="logo"
-            alt="PHENIX Jobs & Carrières"
+            alt="PHOENIX Jobs & Carrières"
             class="h-10 w-auto object-contain brightness-0 invert"
           />
         </RouterLink>
 
-        <!-- Bloc central -->
         <div class="max-w-md">
           <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 text-xs font-medium text-slate-200">
-         
             Inscription 100% gratuite
           </span>
 
           <h2 class="mt-6 text-3xl font-bold leading-tight text-white xl:text-4xl">
             Rejoignez
-            <span class="block text-[#FF8A24]">la communauté PHENIX.</span>
+            <span class="block text-[#FF8A24]">la communauté PHOENIX.</span>
           </h2>
 
           <p class="mt-5 text-sm leading-7 text-slate-300">
@@ -47,22 +42,20 @@
             d'opportunités vérifiées partout en Côte d'Ivoire.
           </p>
 
-          <!-- Étapes -->
           <ul class="mt-8 space-y-4">
             <li
-              v-for="(step, i) in steps"
+              v-for="(stepItem, i) in steps"
               :key="i"
               class="flex items-start gap-3 text-sm text-slate-200"
             >
               <div class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#F47B20] text-xs font-bold text-white">
                 {{ i + 1 }}
               </div>
-              <span>{{ step }}</span>
+              <span>{{ stepItem }}</span>
             </li>
           </ul>
         </div>
 
-        <!-- Chiffres en bas -->
         <div class="grid grid-cols-3 gap-4 rounded-2xl border border-white/10 bg-white/[0.05] p-5 backdrop-blur-sm">
           <div v-for="stat in miniStats" :key="stat.label">
             <p class="text-xl font-black text-white">{{ stat.value }}</p>
@@ -86,7 +79,7 @@
           <RouterLink to="/">
             <img
               :src="logo"
-              alt="PHENIX Jobs & Carrières"
+              alt="PHOENIX Jobs & Carrières"
               class="h-12 w-auto object-contain"
             />
           </RouterLink>
@@ -98,7 +91,7 @@
             Créer un compte
           </h1>
           <p class="mt-2 text-sm text-slate-500">
-            Rejoignez PHENIX en quelques secondes. C'est gratuit.
+            Rejoignez PHOENIX en quelques secondes. C'est gratuit.
           </p>
         </div>
 
@@ -218,7 +211,6 @@
         =============================================== -->
         <div v-else class="space-y-5">
 
-          <!-- Retour -->
           <button
             type="button"
             class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 transition hover:text-[#F47B20]"
@@ -228,7 +220,6 @@
             Retour au choix du rôle
           </button>
 
-          <!-- Rôle sélectionné (badge) -->
           <div class="flex items-center gap-3 rounded-2xl border-2 border-orange-200 bg-orange-50/50 p-4">
             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F47B20] text-white">
               <component :is="currentRoleIcon" class="h-5 w-5" />
@@ -313,7 +304,7 @@
             </div>
 
             <!-- Nom entreprise (si employeur) -->
-            <div v-if="form.role === 'employer'">
+            <div v-if="form.role === 'EMPLOYER'">
               <label for="company" class="mb-2 block text-sm font-semibold text-[#101D35]">
                 Nom de l'entreprise <span class="text-red-500">*</span>
               </label>
@@ -330,6 +321,9 @@
               </div>
               <p v-if="errors.company" class="mt-1 text-xs font-medium text-red-500">
                 {{ errors.company }}
+              </p>
+              <p class="mt-2 text-xs text-slate-500">
+                La fiche entreprise complète se remplira dans votre espace employeur.
               </p>
             </div>
 
@@ -360,7 +354,6 @@
                 </button>
               </div>
 
-              <!-- Indicateur de force -->
               <div v-if="form.password" class="mt-2">
                 <div class="flex gap-1">
                   <div
@@ -448,7 +441,7 @@
           </p>
         </div>
 
-        <!-- Retour à l'accueil -->
+        <!-- Retour accueil -->
         <div class="mt-6 text-center">
           <RouterLink
             to="/"
@@ -482,16 +475,17 @@ import {
   ArrowLeft as ArrowLeftIcon,
 } from 'lucide-vue-next'
 
-/* ============================================================
- * IMAGES IMPORTÉES DANS LE SCRIPT
- * ============================================================ */
 import registerHero from '@/assets/images/header-2.jpg'
 import logo from '@/assets/images/logophoenix.png'
 
+import { useAuthStore } from '@/stores/auth'
+import { parseApiError } from '@/api/client'
+
 /* ============================================================
- * ROUTER
+ * ROUTER + STORE
  * ============================================================ */
 const router = useRouter()
+const authStore = useAuthStore()
 
 /* ============================================================
  * ÉTAPE
@@ -501,28 +495,33 @@ const step = ref<1 | 2>(1)
 /* ============================================================
  * RÔLES
  * ============================================================ */
-const roles = [
+type Role = 'CANDIDATE' | 'EMPLOYER'
+
+const roles: Array<{
+  value: Role
+  label: string
+  description: string
+  icon: typeof UserIcon
+}> = [
   {
-    value: 'candidate' as const,
+    value: 'CANDIDATE',
     label: 'Candidat',
-    description: 'Je cherche un emploi et je souhaite postuler à des offres vérifiées.',
+    description: "Je cherche un emploi et je souhaite postuler à des offres vérifiées.",
     icon: UserIcon,
   },
   {
-    value: 'employer' as const,
+    value: 'EMPLOYER',
     label: 'Employeur',
-    description: 'Je recrute et je souhaite publier des offres et gérer les candidatures.',
+    description: "Je recrute et je souhaite publier des offres et gérer les candidatures.",
     icon: Building2Icon,
   },
 ]
 
-type Role = (typeof roles)[number]['value']
-
 const currentRoleIcon = computed(
-  () => roles.find((r) => r.value === form.role)?.icon ?? UserIcon
+  () => roles.find((r) => r.value === form.role)?.icon ?? UserIcon,
 )
 const currentRoleLabel = computed(
-  () => roles.find((r) => r.value === form.role)?.label ?? ''
+  () => roles.find((r) => r.value === form.role)?.label ?? '',
 )
 
 /* ============================================================
@@ -593,7 +592,7 @@ const passwordStrength = computed(() => {
 })
 
 /* ============================================================
- * VALIDATION
+ * VALIDATION CLIENT
  * ============================================================ */
 const validate = () => {
   Object.keys(errors).forEach((k) => delete errors[k])
@@ -601,15 +600,15 @@ const validate = () => {
   if (!form.fullname.trim()) errors.fullname = 'Le nom est obligatoire.'
 
   if (!form.email.trim()) {
-    errors.email = 'L\'email est obligatoire.'
+    errors.email = "L'email est obligatoire."
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-    errors.email = 'Format d\'email invalide.'
+    errors.email = "Format d'email invalide."
   }
 
   if (!form.phone.trim()) errors.phone = 'Le téléphone est obligatoire.'
 
-  if (form.role === 'employer' && !form.company.trim()) {
-    errors.company = 'Le nom de l\'entreprise est obligatoire.'
+  if (form.role === 'EMPLOYER' && !form.company.trim()) {
+    errors.company = "Le nom de l'entreprise est obligatoire."
   }
 
   if (!form.password) {
@@ -642,22 +641,22 @@ const handleSubmit = async () => {
   isSubmitting.value = true
 
   try {
-    // 🔌 À REMPLACER par l'appel API réel (auth.service.ts)
-    // const { token, user } = await authService.register({...form})
-    await new Promise((resolve) => setTimeout(resolve, 1400))
+    await authStore.register({
+      email: form.email,
+      phone_number: form.phone,
+      role: form.role as Role,
+      password: form.password,
+      cgu_accepted: form.consent,
+      data_protection_accepted: form.consent,
+    })
 
-    // Simulation : on stocke en localStorage
-    localStorage.setItem('phenix_token', 'demo-token')
-    localStorage.setItem('phenix_role', form.role as string)
-
-    // Redirection selon le rôle
-    if (form.role === 'employer') {
-      router.push('/employer/dashboard')
-    } else {
-      router.push('/candidate/dashboard')
-    }
-  } catch (err) {
-    apiError.value = 'Une erreur est survenue. Veuillez réessayer.'
+    // L'API envoie un OTP (email ou SMS)
+    router.push({
+      name: 'verify-otp',
+      query: { identifier: form.email || form.phone },
+    })
+  } catch (e) {
+    apiError.value = parseApiError(e).message
   } finally {
     isSubmitting.value = false
   }
@@ -672,9 +671,6 @@ const steps = [
   'Commencez à postuler ou à recruter immédiatement',
 ]
 
-/* ============================================================
- * MINI STATS
- * ============================================================ */
 const miniStats = [
   { value: '120k+', label: 'Candidats' },
   { value: '15k+', label: 'Entreprises' },
