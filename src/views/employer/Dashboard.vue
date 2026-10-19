@@ -244,8 +244,7 @@ import {
   Building2 as BuildingIcon,
   TrendingUp as TrendingUpIcon,
   CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Target as TargetIcon,
+ 
 } from 'lucide-vue-next'
 import { useEmployerStore } from '@/stores/employer'
 

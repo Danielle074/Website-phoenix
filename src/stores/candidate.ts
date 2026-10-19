@@ -1,5 +1,10 @@
+
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+
+// ============================================================
+// TYPES
+// ============================================================
 
 export interface CandidateUser {
   id: string
@@ -49,140 +54,200 @@ export interface JobAlert {
   createdAt: string
 }
 
-// ⚠️ MOCK — à remplacer par des appels API
+// ============================================================
+// IMAGES — DONNÉES DE DÉMONSTRATION
+// ============================================================
+
 import userAvatar from '@/assets/images/avatar.jpg'
 import orangeLogo from '@/assets/images/orange.png'
 import mtnLogo from '@/assets/images/mtn.png'
 import sanlamLogo from '@/assets/images/sanlam.jpg'
 
+// ============================================================
+// DONNÉES INITIALES
+// ============================================================
+
+const initialUser: CandidateUser = {
+  id: 'u_001',
+  fullName: 'Kouassi Yao',
+  email: 'kouassi.yao@example.com',
+  phone: '+225 07 00 00 00 00',
+  title: 'Développeur Full Stack',
+  bio: "Passionné par le développement web moderne, je recherche des opportunités stimulantes en Côte d'Ivoire.",
+  location: 'Abidjan, Côte d’Ivoire',
+  avatar: userAvatar,
+  profileCompletion: 72,
+  joinedAt: 'Membre depuis Janvier 2025',
+}
+
+const initialApplications: Application[] = [
+  {
+    id: 1,
+    jobId: 1,
+    jobTitle: 'Développeur Full Stack',
+    company: "Orange Côte d'Ivoire",
+    companyLogo: orangeLogo,
+    location: 'Abidjan',
+    contract: 'CDI',
+    salary: '500 000 - 1 000 000 FCFA',
+    status: 'interview',
+    appliedAt: 'Il y a 3 jours',
+  },
+  {
+    id: 2,
+    jobId: 5,
+    jobTitle: 'Chef de Projet Digital',
+    company: "MTN Côte d'Ivoire",
+    companyLogo: mtnLogo,
+    location: 'Abidjan',
+    contract: 'CDD',
+    salary: '700 000 - 1 300 000 FCFA',
+    status: 'reviewing',
+    appliedAt: 'Il y a 5 jours',
+  },
+  {
+    id: 3,
+    jobId: 6,
+    jobTitle: 'Analyste Financier',
+    company: 'Ecobank CI',
+    companyLogo: sanlamLogo,
+    location: 'Abidjan',
+    contract: 'CDI',
+    salary: '500 000 - 900 000 FCFA',
+    status: 'pending',
+    appliedAt: 'Il y a 1 semaine',
+  },
+  {
+    id: 4,
+    jobId: 2,
+    jobTitle: 'Conseiller Commercial',
+    company: 'Sanlam Vie CI',
+    companyLogo: sanlamLogo,
+    location: 'Abidjan',
+    contract: 'CDI',
+    salary: '300 000 - 600 000 FCFA',
+    status: 'rejected',
+    appliedAt: 'Il y a 2 semaines',
+  },
+]
+
+const initialFavorites: Favorite[] = [
+  {
+    id: 1,
+    jobId: 7,
+    jobTitle: 'Data Analyst',
+    company: "MTN Côte d'Ivoire",
+    companyLogo: mtnLogo,
+    location: 'Abidjan',
+    contract: 'CDI',
+    salary: '600 000 - 1 100 000 FCFA',
+    addedAt: 'Il y a 2 jours',
+  },
+  {
+    id: 2,
+    jobId: 3,
+    jobTitle: 'Responsable Qualité',
+    company: "Nestlé Côte d'Ivoire",
+    companyLogo: sanlamLogo,
+    location: 'Yopougon',
+    contract: 'CDI',
+    salary: '400 000 - 800 000 FCFA',
+    addedAt: 'Il y a 4 jours',
+  },
+]
+
+const initialAlerts: JobAlert[] = [
+  {
+    id: 1,
+    keywords: 'Développeur Vue.js',
+    location: 'Abidjan',
+    category: 'Informatique & Télécoms',
+    frequency: 'daily',
+    active: true,
+    createdAt: 'Créée il y a 1 semaine',
+  },
+  {
+    id: 2,
+    keywords: 'Product Manager',
+    location: 'Toute la Côte d’Ivoire',
+    category: 'Services & Conseil',
+    frequency: 'weekly',
+    active: false,
+    createdAt: 'Créée il y a 3 semaines',
+  },
+]
+
+// ============================================================
+// CANDIDATE STORE
+// ============================================================
+
 export const useCandidateStore = defineStore('candidate', () => {
-  const user = ref<CandidateUser>({
-    id: 'u_001',
-    fullName: 'Kouassi Yao',
-    email: 'kouassi.yao@example.com',
-    phone: '+225 07 00 00 00 00',
-    title: 'Développeur Full Stack',
-    bio: "Passionné par le développement web moderne, je recherche des opportunités stimulantes en Côte d'Ivoire.",
-    location: 'Abidjan, Côte d’Ivoire',
-    avatar: userAvatar,
-    profileCompletion: 72,
-    joinedAt: 'Membre depuis Janvier 2025',
-  })
+  const user = ref<CandidateUser>({ ...initialUser })
 
-  const applications = ref<Application[]>([
-    {
-      id: 1,
-      jobId: 1,
-      jobTitle: 'Développeur Full Stack',
-      company: "Orange Côte d'Ivoire",
-      companyLogo: orangeLogo,
-      location: 'Abidjan',
-      contract: 'CDI',
-      salary: '500 000 - 1 000 000 FCFA',
-      status: 'interview',
-      appliedAt: 'Il y a 3 jours',
-    },
-    {
-      id: 2,
-      jobId: 5,
-      jobTitle: 'Chef de Projet Digital',
-      company: "MTN Côte d'Ivoire",
-      companyLogo: mtnLogo,
-      location: 'Abidjan',
-      contract: 'CDD',
-      salary: '700 000 - 1 300 000 FCFA',
-      status: 'reviewing',
-      appliedAt: 'Il y a 5 jours',
-    },
-    {
-      id: 3,
-      jobId: 6,
-      jobTitle: 'Analyste Financier',
-      company: 'Ecobank CI',
-      companyLogo: sanlamLogo,
-      location: 'Abidjan',
-      contract: 'CDI',
-      salary: '500 000 - 900 000 FCFA',
-      status: 'pending',
-      appliedAt: 'Il y a 1 semaine',
-    },
-    {
-      id: 4,
-      jobId: 2,
-      jobTitle: 'Conseiller Commercial',
-      company: 'Sanlam Vie CI',
-      companyLogo: sanlamLogo,
-      location: 'Abidjan',
-      contract: 'CDI',
-      salary: '300 000 - 600 000 FCFA',
-      status: 'rejected',
-      appliedAt: 'Il y a 2 semaines',
-    },
-  ])
+  const applications = ref<Application[]>([...initialApplications])
+  const favorites = ref<Favorite[]>([...initialFavorites])
+  const alerts = ref<JobAlert[]>([...initialAlerts])
 
-  const favorites = ref<Favorite[]>([
-    {
-      id: 1,
-      jobId: 7,
-      jobTitle: 'Data Analyst',
-      company: "MTN Côte d'Ivoire",
-      companyLogo: mtnLogo,
-      location: 'Abidjan',
-      contract: 'CDI',
-      salary: '600 000 - 1 100 000 FCFA',
-      addedAt: 'Il y a 2 jours',
-    },
-    {
-      id: 2,
-      jobId: 3,
-      jobTitle: 'Responsable Qualité',
-      company: "Nestlé Côte d'Ivoire",
-      companyLogo: sanlamLogo,
-      location: 'Yopougon',
-      contract: 'CDI',
-      salary: '400 000 - 800 000 FCFA',
-      addedAt: 'Il y a 4 jours',
-    },
-  ])
-
-  const alerts = ref<JobAlert[]>([
-    {
-      id: 1,
-      keywords: 'Développeur Vue.js',
-      location: 'Abidjan',
-      category: 'Informatique & Télécoms',
-      frequency: 'daily',
-      active: true,
-      createdAt: 'Créée il y a 1 semaine',
-    },
-    {
-      id: 2,
-      keywords: 'Product Manager',
-      location: 'Toute la Côte d’Ivoire',
-      category: 'Services & Conseil',
-      frequency: 'weekly',
-      active: false,
-      createdAt: 'Créée il y a 3 semaines',
-    },
-  ])
+  // ==========================================================
+  // COMPTEURS
+  // ==========================================================
 
   const applicationsCount = computed(
-    () => applications.value.filter((a) => a.status !== 'rejected').length,
+    () => applications.value.filter((application) => application.status !== 'rejected').length,
   )
+
   const favoritesCount = computed(() => favorites.value.length)
-  const alertsCount = computed(() => alerts.value.filter((a) => a.active).length)
+
+  const alertsCount = computed(
+    () => alerts.value.filter((alert) => alert.active).length,
+  )
+
+  // ==========================================================
+  // STATISTIQUES DU TABLEAU DE BORD
+  // ==========================================================
 
   const stats = computed(() => ({
     applications: applications.value.length,
-    pending: applications.value.filter((a) => a.status === 'pending').length,
-    interview: applications.value.filter((a) => a.status === 'interview').length,
+    pending: applications.value.filter(
+      (application) => application.status === 'pending',
+    ).length,
+    interview: applications.value.filter(
+      (application) => application.status === 'interview',
+    ).length,
     favorites: favorites.value.length,
-    activeAlerts: alerts.value.filter((a) => a.active).length,
+    activeAlerts: alerts.value.filter((alert) => alert.active).length,
     views: 47,
   }))
 
-  const logout = () => {
-    user.value = null as any
+  // ==========================================================
+  // RÉINITIALISATION DES DONNÉES DU CANDIDAT
+  // ==========================================================
+
+  const resetCandidateData = (): void => {
+    user.value = { ...initialUser }
+    applications.value = [...initialApplications]
+    favorites.value = [...initialFavorites]
+    alerts.value = [...initialAlerts]
+  }
+
+  // ==========================================================
+  // DÉCONNEXION
+  // ==========================================================
+
+  const logout = (): void => {
+    user.value = {
+      id: '',
+      fullName: '',
+      email: '',
+      phone: '',
+      title: '',
+      bio: '',
+      location: '',
+      avatar: '',
+      profileCompletion: 0,
+      joinedAt: '',
+    }
+
     applications.value = []
     favorites.value = []
     alerts.value = []
@@ -197,6 +262,7 @@ export const useCandidateStore = defineStore('candidate', () => {
     favoritesCount,
     alertsCount,
     stats,
+    resetCandidateData,
     logout,
   }
 })

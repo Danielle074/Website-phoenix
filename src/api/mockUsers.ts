@@ -44,3 +44,6 @@ export const findMockUser = (identifier: string, password: string) =>
       (u.email === identifier || u.phone_number === identifier) &&
       u.password === password,
   )
+
+export const findMockUserById = (id: string) =>
+  MOCK_USERS.find((u) => u.id === id)

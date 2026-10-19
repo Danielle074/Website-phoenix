@@ -17,7 +17,7 @@
 
     <div class="mx-auto flex max-w-[1600px]">
       <!-- SIDEBAR DESKTOP -->
-      <aside class="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-slate-200 bg-white lg:block">
+      <aside class="sticky top-0 z-30 hidden h-screen w-72 shrink-0 border-r border-slate-200 bg-white lg:block">
         <SidebarContent />
       </aside>
 
@@ -54,7 +54,7 @@
       </Transition>
 
       <!-- CONTENU PRINCIPAL -->
-      <main class="min-w-0 flex-1">
+      <main class="relative z-0 min-w-0 flex-1">
         <RouterView v-slot="{ Component }">
           <Transition
             enter-active-class="transition duration-300 ease-out"

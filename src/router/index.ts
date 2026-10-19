@@ -1,4 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
+// src/router/index.ts
+
+import {
+  createRouter,
+  createWebHistory,
+  type RouteRecordRaw,
+} from 'vue-router'
 
 /* ============================================================
  * LAYOUTS
@@ -65,78 +71,128 @@ import AdminStatsView from '@/views/admin/Stats.vue'
 import { useAuthStore } from '@/stores/auth'
 
 /* ============================================================
+ * TYPES
+ * ============================================================ */
+type UserRole = 'CANDIDATE' | 'EMPLOYER' | 'ADMIN' | 'SUPERADMIN'
+
+type AppRouteMeta = {
+  title?: string
+  requiresAuth?: boolean
+  guestOnly?: boolean
+  public?: boolean
+  role?: UserRole | UserRole[]
+}
+
+declare module 'vue-router' {
+  interface RouteMeta extends AppRouteMeta {}
+}
+
+/* ============================================================
  * ROUTES
  * ============================================================ */
-const routes = [
-  /* -------------------- SITE PUBLIC -------------------- */
+const routes: RouteRecordRaw[] = [
+  /* SITE PUBLIC */
   {
     path: '/',
     component: PublicLayout,
     children: [
-      { path: '', name: 'home', component: HomeView, meta: { title: 'Accueil' } },
-      { path: 'jobs', name: 'jobs', component: JobsView, meta: { title: "Offres d'emploi" } },
-      { path: 'jobs/:id', name: 'job-detail', component: JobDetailsView, meta: { title: "Détail de l'offre" } },
-      { path: 'about', name: 'about', component: AboutView, meta: { title: 'À propos' } },
-      { path: 'contact', name: 'contact', component: ContactView, meta: { title: 'Contact' } },
-      { path: 'faq', name: 'faq', component: FaqView, meta: { title: 'FAQ' } },
+      {
+        path: '',
+        name: 'home',
+        component: HomeView,
+        meta: { title: 'Accueil', public: true },
+      },
+      {
+        path: 'jobs',
+        name: 'jobs',
+        component: JobsView,
+        meta: { title: "Offres d'emploi", public: true },
+      },
+      {
+        path: 'jobs/:id',
+        name: 'job-detail',
+        component: JobDetailsView,
+        meta: { title: "Détail de l'offre", public: true },
+      },
+      {
+        path: 'about',
+        name: 'about',
+        component: AboutView,
+        meta: { title: 'À propos', public: true },
+      },
+      {
+        path: 'contact',
+        name: 'contact',
+        component: ContactView,
+        meta: { title: 'Contact', public: true },
+      },
+      {
+        path: 'faq',
+        name: 'faq',
+        component: FaqView,
+        meta: { title: 'FAQ', public: true },
+      },
     ],
   },
 
-  /* -------------------- CONNEXION -------------------- */
+  /* CONNEXION */
   {
     path: '/login',
     name: 'login',
     component: LoginView,
-    meta: { title: 'Connexion', guestOnly: true },
+    meta: { title: 'Connexion', guestOnly: true, public: true },
   },
 
-  /* -------------------- VÉRIFICATION 2FA -------------------- */
+  /* VÉRIFICATION 2FA */
   {
     path: '/login/mfa',
     name: 'login-mfa',
     component: LoginMFAView,
-    meta: { title: 'Vérification 2FA', guestOnly: true },
+    meta: { title: 'Vérification 2FA', guestOnly: true, public: true },
   },
 
-  /* -------------------- INSCRIPTION -------------------- */
+  /* INSCRIPTION */
   {
     path: '/register',
     name: 'register',
     component: RegisterView,
-    meta: { title: 'Inscription', guestOnly: true },
+    meta: { title: 'Inscription', guestOnly: true, public: true },
   },
 
-  /* -------------------- VÉRIFICATION OTP -------------------- */
+  /* VÉRIFICATION OTP */
   {
     path: '/verify-otp',
     name: 'verify-otp',
     component: VerifyOTPView,
-    meta: { title: 'Vérification du compte', guestOnly: true },
+    meta: { title: 'Vérification du compte', guestOnly: true, public: true },
   },
 
-  /* -------------------- MOT DE PASSE OUBLIÉ -------------------- */
+  /* MOT DE PASSE OUBLIÉ */
   {
     path: '/forgot-password',
     name: 'forgot-password',
     component: ForgotPasswordView,
-    meta: { title: 'Mot de passe oublié', guestOnly: true },
+    meta: { title: 'Mot de passe oublié', guestOnly: true, public: true },
   },
 
-  /* -------------------- RÉINITIALISATION MOT DE PASSE -------------------- */
+  /* RÉINITIALISATION MOT DE PASSE */
   {
     path: '/reset-password',
     name: 'reset-password',
     component: ResetPasswordView,
-    meta: { title: 'Réinitialiser le mot de passe', guestOnly: true },
+    meta: { title: 'Réinitialiser le mot de passe', guestOnly: true, public: true },
   },
 
-  /* -------------------- ESPACE CANDIDAT -------------------- */
+  /* ESPACE CANDIDAT */
   {
     path: '/candidate',
     component: DashboardLayout,
-    meta: { requiresAuth: true, role: 'CANDIDATE' },
+    meta: {
+      requiresAuth: true,
+      role: 'CANDIDATE',
+    },
     children: [
-      { path: '', redirect: '/candidate/dashboard' },
+      { path: '', redirect: { name: 'candidate-dashboard' } },
       { path: 'dashboard', name: 'candidate-dashboard', component: CandidateDashboardView, meta: { title: 'Tableau de bord' } },
       { path: 'profile', name: 'candidate-profile', component: CandidateProfileView, meta: { title: 'Mon profil' } },
       { path: 'resume', name: 'candidate-resume', component: CandidateResumeView, meta: { title: 'Mon CV' } },
@@ -147,13 +203,16 @@ const routes = [
     ],
   },
 
-  /* -------------------- ESPACE EMPLOYEUR -------------------- */
+  /* ESPACE EMPLOYEUR */
   {
     path: '/employer',
     component: EmployerLayout,
-    meta: { requiresAuth: true, role: 'EMPLOYER' },
+    meta: {
+      requiresAuth: true,
+      role: 'EMPLOYER',
+    },
     children: [
-      { path: '', redirect: '/employer/dashboard' },
+      { path: '', redirect: { name: 'employer-dashboard' } },
       { path: 'dashboard', name: 'employer-dashboard', component: EmployerDashboardView, meta: { title: 'Tableau de bord employeur' } },
       { path: 'company', name: 'employer-company', component: EmployerCompanyView, meta: { title: 'Profil entreprise' } },
       { path: 'jobs/new', name: 'employer-new-job', component: EmployerNewJobView, meta: { title: 'Publier une offre' } },
@@ -164,13 +223,16 @@ const routes = [
     ],
   },
 
-  /* -------------------- ESPACE ADMINISTRATEUR -------------------- */
+  /* ESPACE ADMINISTRATEUR */
   {
     path: '/admin',
     component: AdminLayout,
-    meta: { requiresAuth: true, role: ['ADMIN', 'SUPERADMIN'] },
+    meta: {
+      requiresAuth: true,
+      role: ['ADMIN', 'SUPERADMIN'],
+    },
     children: [
-      { path: '', redirect: '/admin/dashboard' },
+      { path: '', redirect: { name: 'admin-dashboard' } },
       { path: 'dashboard', name: 'admin-dashboard', component: AdminDashboardView, meta: { title: 'Tableau de bord admin' } },
       { path: 'moderation', name: 'admin-moderation', component: AdminModerationView, meta: { title: 'Modération des offres' } },
       { path: 'users', name: 'admin-users', component: AdminUsersView, meta: { title: 'Gestion des utilisateurs' } },
@@ -178,12 +240,12 @@ const routes = [
     ],
   },
 
-  /* -------------------- PAGE 404 -------------------- */
+  /* PAGE 404 */
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: NotFoundView,
-    meta: { title: 'Page introuvable' },
+    meta: { title: 'Page introuvable', public: true },
   },
 ]
 
@@ -200,58 +262,75 @@ const router = createRouter({
 })
 
 /* ============================================================
- * GUARD UNIFIÉ : TITRE + AUTH + RÔLE
+ * ROUTES DE DESTINATION SELON LE RÔLE
+ * ============================================================ */
+function getDashboardForRole(role: string | null): { name: string } {
+  switch (role) {
+    case 'CANDIDATE':
+      return { name: 'candidate-dashboard' }
+    case 'EMPLOYER':
+      return { name: 'employer-dashboard' }
+    case 'ADMIN':
+    case 'SUPERADMIN':
+      return { name: 'admin-dashboard' }
+    default:
+      return { name: 'home' }
+  }
+}
+
+/* ============================================================
+ * GARDE DE NAVIGATION
  * ============================================================ */
 router.beforeEach(async (to) => {
   const authStore = useAuthStore()
 
-  // 1. Attendre que l'auth soit prête (surtout à F5 sur une URL protégée)
+  // 1. Charger l'utilisateur si ce n'est pas déjà fait
   if (!authStore.isReady) {
     await authStore.fetchMe()
   }
 
-  // 2. Route protégée mais non connecté → /login
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    return { name: 'login', query: { redirect: to.fullPath } }
-  }
+  // 2. Déterminer si la page est publique (accessible à tous)
+  const isPublic = to.meta.public === true
 
-  // 3. Route invité (login, register...) mais déjà connecté → dashboard selon rôle
-  if (to.meta.guestOnly && authStore.isAuthenticated) {
-    return { name: getDashboardForRole(authStore.role) }
-  }
-
-  // 4. Vérification du rôle (peut être un string OU un tableau de strings)
-  if (to.meta.role && authStore.isAuthenticated) {
-    const allowed = Array.isArray(to.meta.role) ? to.meta.role : [to.meta.role]
-    if (!allowed.includes(authStore.role as string)) {
-      return { name: getDashboardForRole(authStore.role) }
+  // 3. Si on n'est PAS connecté et que la page est protégée
+  if (!authStore.isAuthenticated && !isPublic) {
+    return {
+      name: 'login',
+      query: { redirect: to.fullPath },
     }
   }
 
-  // 5. Titre de la page (fait ici, à la fin, pour ne pas bloquer sur les redirections)
-  const baseTitle = 'PHOENIX Jobs & Carrières'
-  document.title = to.meta.title
-    ? `${String(to.meta.title)} | ${baseTitle}`
-    : baseTitle
+  // 4. Si on est connecté et qu'on essaie d'aller sur une page publique (ex: login, register)
+  if (authStore.isAuthenticated && to.meta.guestOnly) {
+    return getDashboardForRole(authStore.role)
+  }
+
+  // 5. Vérification du rôle (si la page est protégée)
+  if (to.meta.requiresAuth && authStore.isAuthenticated) {
+    const allowedRoles = Array.isArray(to.meta.role)
+      ? to.meta.role
+      : [to.meta.role]
+
+    // Si un rôle est requis et que l'utilisateur n'a pas le bon rôle
+    if (
+      to.meta.role &&
+      (!authStore.role || !allowedRoles.includes(authStore.role as UserRole))
+    ) {
+      return getDashboardForRole(authStore.role)
+    }
+  }
 
   return true
 })
 
 /* ============================================================
- * HELPER : dashboard selon le rôle
+ * TITRE DE PAGE
  * ============================================================ */
-function getDashboardForRole(role: string | null): string {
-  switch (role) {
-    case 'CANDIDATE':
-      return 'candidate-dashboard'
-    case 'EMPLOYER':
-      return 'employer-dashboard'
-    case 'ADMIN':
-    case 'SUPERADMIN':
-      return 'admin-dashboard'
-    default:
-      return 'home'
-  }
-}
+router.afterEach((to) => {
+  const baseTitle = 'PHOENIX Jobs & Carrières'
+  document.title = to.meta.title
+    ? `${String(to.meta.title)} | ${baseTitle}`
+    : baseTitle
+})
 
 export default router

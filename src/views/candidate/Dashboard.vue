@@ -248,10 +248,7 @@ import {
   Bell as BellIcon,
   ArrowRight as ArrowRightIcon,
   Sparkles as SparklesIcon,
-  Briefcase as BriefcaseIcon,
   CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  TrendingUp as TrendingUpIcon,
 } from 'lucide-vue-next'
 import { useCandidateStore } from '@/stores/candidate'
 
@@ -261,11 +258,12 @@ const recentApplications = computed(() => candidateStore.applications.slice(0, 3
 const recentFavorites = computed(() => candidateStore.favorites.slice(0, 2))
 const activeAlerts = computed(() => candidateStore.alerts.filter((a) => a.active))
 
-const statCards = computed(() => [
-  { icon: SendIcon, value: candidateStore.stats.applications, label: 'Candidatures envoyées' },
-  { icon: CheckCircleIcon, value: candidateStore.stats.interview, label: 'Entretiens' },
-  { icon: HeartIcon, value: candidateStore.stats.favorites, label: 'Offres enregistrées' },
-  { icon: BellIcon, value: candidateStore.stats.activeAlerts, label: 'Alertes actives' },
+// CORRECTION TS : On précise que "trend" est optionnel (string | null)
+const statCards = computed<{ icon: any; value: number; label: string; trend: string | null }[]>(() => [
+  { icon: SendIcon, value: candidateStore.stats.applications, label: 'Candidatures envoyées', trend: null },
+  { icon: CheckCircleIcon, value: candidateStore.stats.interview, label: 'Entretiens', trend: null },
+  { icon: HeartIcon, value: candidateStore.stats.favorites, label: 'Offres enregistrées', trend: null },
+  { icon: BellIcon, value: candidateStore.stats.activeAlerts, label: 'Alertes actives', trend: null },
 ])
 
 const statusLabel = (s: string) =>
